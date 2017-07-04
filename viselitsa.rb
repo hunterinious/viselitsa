@@ -3,17 +3,19 @@
 # В отличие от require этот метод ищет файлы .rb (расширение можно не указывать)
 # в той же папке, где лежит сама программа, а не в той папке, откуда мы
 # запускаем программу.
-current_path = File.dirname(__FILE__)
 
 require_relative "game.rb"
 require_relative "result_printer.rb"
 require_relative "word_reader.rb"
+
+current_path = File.dirname(__FILE__)
 
 printer = ResultPrinter.new
 
 reader = WordReader.new
 
 word = reader.read_from_file(current_path + '/data/words.txt')
+puts current_path
 
 # в конструктор пеедается загадное слово
 game = Game.new(word)
