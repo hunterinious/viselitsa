@@ -19,6 +19,13 @@ class Game
 
     # Специальная переменная-индикатор состояния игры (см. метод get_status)
     @status = 0
+
+    @double_words = {
+        "е" => "ё",
+        "ё" => "е",
+        "и" => "й",
+        "й" => "и"
+    }
   end
 
   # Метод, который возвращает массив букв загаданного слова
@@ -35,8 +42,16 @@ class Game
   #  0 – игра активна
   # -1 – игра закончена поражением
   #  1 – игра закончена победой
-  def status
-    @status
+  def in_progress?
+    @status == 0
+  end
+
+  def win_game?
+    @status == 1
+  end
+
+  def loose_game?
+    @status == -1
   end
 
   # Основной метод игры "сделать следующий шаг". В качестве параметра принимает
@@ -56,35 +71,23 @@ class Game
     end
 
     # буквы  (е ё)  (и й) должны распознаватся как одинаковые и если отгадано е то выводится и ё
-   if @letters.include?(user_letter) ||
-     (user_letter == "е" && @letters.include?("ё")) ||
-     (user_letter == "ё" && @letters.include?("е")) ||
-     (user_letter == "и" && @letters.include?("й")) ||
-     (user_letter == "й" && @letters.include?("и"))
+    if @letters.include?(user_letter) ||
+      (user_letter == "е" && @letters.include?("ё")) ||
+      (user_letter == "ё" && @letters.include?("е")) ||
+      (user_letter == "и" && @letters.include?("й")) ||
+      (user_letter == "й" && @letters.include?("и"))
 
-    @good_letters << user_letter
+     @good_letters << user_letter
 
-    if user_letter == "е"
-      @good_letters << "ё"
-    end
-
-    if user_letter == "ё"
-      @good_letters << "е"
-    end
-
-    if user_letter == "и"
-      @good_letters << "й"
-    end
-
-    if user_letter == "й"
-      @good_letters << "и"
-    end
+     if @double_words.value?(user_letter)
+       @good_letters << @double_words.key(user_letter)
+     end
 
       # Дополнительная проверка — угадано ли на этой букве все слово целиком.
       # Если да — меняем значение переменной @status на 1 — победа.
-      if (@letters - @good_letters).empty?
+     if (@letters - @good_letters).empty?
         @status = 1
-      end
+     end
     else
       # Если в слове нет введенной буквы — добавляем эту букву в массив
       # «плохих» букв и увеличиваем счетчик ошибок.

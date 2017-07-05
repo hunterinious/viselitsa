@@ -39,13 +39,13 @@ class ResultPrinter
     # Выводим саму виселицу, состояние которой определяется количеством ошибок
     print_viselitsa(game.errors)
 
-    if game.status == -1
+    if game.loose_game?
       # Если статус игры -1 (проигрыш) — выводим загаданное слово и говорим, что
       # пользователь проиграл.
       puts "\nВы проиграли :(\n"
       puts "Загаданное слово было: " + game.letters.join("")
       puts
-    elsif game.status == 1
+    elsif game.win_game?
       # Если статус игры 1 (выигрыш) — поздравляем пользователя с победой.
       puts "Поздравляем, вы выиграли!\n\n"
     else
