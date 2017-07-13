@@ -2,13 +2,13 @@
 
 # Класс ResultPrinter занимается выводом на экран состояния и результата игры.
 class ResultPrinter
-  def initialize
+  def initialize(game)
     @status_image = []
 
     current_path = File.dirname(__FILE__)
     counter = 0
 
-    while counter <= 7
+    while counter <= game.max_errors
       file_name = current_path + "/images/#{counter}.txt"
       begin
         file = File.new(file_name, "r:UTF-8")
@@ -39,19 +39,19 @@ class ResultPrinter
     # Выводим саму виселицу, состояние которой определяется количеством ошибок
     print_viselitsa(game.errors)
 
-    if game.loose_game?
+    if game.lost?
       # Если статус игры -1 (проигрыш) — выводим загаданное слово и говорим, что
       # пользователь проиграл.
       puts "\nВы проиграли :(\n"
       puts "Загаданное слово было: " + game.letters.join("")
       puts
-    elsif game.win_game?
+    elsif game.won?
       # Если статус игры 1 (выигрыш) — поздравляем пользователя с победой.
       puts "Поздравляем, вы выиграли!\n\n"
     else
       # Если ни то ни другое (статус 0 — игра продолжается), просто выводим
       # текущее количество оставшихся попыток.
-      puts "У вас осталось ошибок: " + (7 - game.errors).to_s
+      puts "У вас осталось ошибок: #{game.errors_left}"
     end
   end
 
@@ -68,7 +68,7 @@ class ResultPrinter
       end
     end
 
-    return result
+    result
   end
 
   # Метод, рисующий виселицу в зависимотси от кол-ва ошибок

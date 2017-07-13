@@ -10,15 +10,15 @@ require_relative "word_reader.rb"
 
 current_path = File.dirname(__FILE__)
 
-printer = ResultPrinter.new
+word_reader = WordReader.new
 
-reader = WordReader.new
-
-word = reader.read_from_file(current_path + '/data/words.txt')
+word = word_reader.read_from_file(current_path + '/data/words.txt')
 puts current_path
 
 # в конструктор пеедается загадное слово
 game = Game.new(word)
+
+printer = ResultPrinter.new(game)
 
 # Основной цикл программы, в котором развивается игра выходим из цикла, когда
 # объект game (класса Game) сообщит нам, c помощью метода status о том, что игра
