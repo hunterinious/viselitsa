@@ -2,10 +2,10 @@
 
 # Класс ResultPrinter занимается выводом на экран состояния и результата игры.
 class ResultPrinter
-  def initialize(game)
+  def initialize(game,path)
     @status_image = []
 
-    current_path = File.dirname(__FILE__)
+    current_path = path
     counter = 0
 
     while counter <= game.max_errors

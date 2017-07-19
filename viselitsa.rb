@@ -4,21 +4,20 @@
 # в той же папке, где лежит сама программа, а не в той папке, откуда мы
 # запускаем программу.
 
-require_relative "game.rb"
-require_relative "result_printer.rb"
-require_relative "word_reader.rb"
+require_relative "lib/game.rb"
+require_relative "lib/result_printer.rb"
+require_relative "lib/word_reader.rb"
 
 current_path = File.dirname(__FILE__)
 
 word_reader = WordReader.new
 
 word = word_reader.read_from_file(current_path + '/data/words.txt')
-puts current_path
 
 # в конструктор пеедается загадное слово
 game = Game.new(word)
 
-printer = ResultPrinter.new(game)
+printer = ResultPrinter.new(game,current_path)
 
 # Основной цикл программы, в котором развивается игра выходим из цикла, когда
 # объект game (класса Game) сообщит нам, c помощью метода status о том, что игра
